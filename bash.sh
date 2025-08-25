@@ -30,7 +30,7 @@ sudo apt upgrade -y
 
 # Install required system packages
 echo "Installing system dependencies..."
-sudo apt install -y python3-pip python3-venv libgpiod2 i2c-tools git
+sudo apt install -y python3-pip python3-venv libgpiod2 i2c-tools
 
 # Enable I2C interface
 echo "Enabling I2C interface..."
@@ -55,37 +55,10 @@ source "$VENV_DIR/bin/activate"
 
 # Install Python dependencies in the virtual environment
 echo "Installing Python dependencies in virtual environment..."
-if ! pip install adafruit-circuitpython-bmp280 adafruit-blinka; then
-    echo "Error: Failed to install BMP280 or Blinka libraries. Check pip and internet."
+if ! pip install adafruit-circuitpython-bmp280 adafruit-blinka adafruit-circuitpython-dht; then
+    echo "Error: Failed to install required libraries. Check pip and internet."
     deactivate
     exit 1
-fi
-
-# Install Adafruit_Python_DHT
-echo "Installing Adafruit_Python_DHT..."
-if ! pip install Adafruit_DHT; then
-    echo "Warning: Adafruit_Python_DHT installation failed. Attempting to install from source..."
-    if ! git clone https://github.com/adafruit/Adafruit_Python_DHT.git /tmp/Adafruit_Python_DHT; then
-        echo "Error: Failed to clone Adafruit_Python_DHT repository."
-        deactivate
-        exit 1
-    fi
-    cd /tmp/Adafruit_Python_DHT
-    if ! python3 setup.py install; then
-        echo "Error: Failed to install Adafruit_Python_DHT from source."
-        cd -
-        rm -rf /tmp/Adafruit_Python_DHT
-        deactivate
-        exit 1
-    fi
-    cd -
-    rm -rf /tmp/Adafruit_Python_DHT
-fi
-
-# Install fallback DHT library
-echo "Installing adafruit-circuitpython-dht as fallback..."
-if ! pip install adafruit-circuitpython-dht; then
-    echo "Warning: Failed to install adafruit-circuitpython-dht. DHT11 may require sudo."
 fi
 
 # Deactivate virtual environment

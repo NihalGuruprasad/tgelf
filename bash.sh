@@ -87,3 +87,4 @@ echo "  source $VENV_DIR/bin/activate"
 echo "Then run: python3 your_script.py"
 echo "Note: If DHT11 readings fail, try running with 'sudo python3 your_script.py' inside the virtual environment."
 echo "To deactivate the virtual environment after running, type: deactivate"
+
